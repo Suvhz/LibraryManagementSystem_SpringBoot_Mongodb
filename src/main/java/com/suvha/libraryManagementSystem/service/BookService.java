@@ -9,21 +9,22 @@ import org.springframework.stereotype.Service;
 import com.suvha.libraryManagementSystem.exception.DataNotFoundException;
 import com.suvha.libraryManagementSystem.model.Book;
 import com.suvha.libraryManagementSystem.repository.BookRepository;
+import com.suvha.libraryManagementSystem.serviceDAO.ServiceDAO;
 
 @Service
-public class BookService {
+public class BookService implements ServiceDAO<Book>{
 	@Autowired
 	private BookRepository bookRepository;
-
+	@Override
 	public Book create(Book book) {
 		Book books = new Book();
 		books = book;
 		return bookRepository.save(books);
 	}
-
 	public List<Book> get() {
 		return bookRepository.findByQuantityGreaterThan(0);
 	}
+	@Override
 	public List<Book> getAll(){
 		return bookRepository.findAll();
 	}
@@ -35,9 +36,9 @@ public class BookService {
 		}
 		throw new DataNotFoundException("Book with name " + bookName + " not found");
 	}
-
+	@Override
 	public Book update(Book book) {
-		Book findedBook = findById(book.getId());
+		Book findedBook = getById(book.getId());
 		findedBook.setName(book.getName());
 		findedBook.setAuthor(book.getAuthor());
 		findedBook.setDescription(book.getDescription());
@@ -48,19 +49,19 @@ public class BookService {
 		return bookRepository.save(findedBook);
 
 	}
-
+	@Override
 	public void deleteAll() {
 		bookRepository.deleteAll();
 	}
-
+	@Override
 	public Map<String, String> delete(String id) {
-		Book book = findById(id);
+		Book book = getById(id);
 		bookRepository.delete(book);
 		return Collections.singletonMap("response", "Deleted successfully");
 
 	}
-
-	public Book findById(String id) {
+	@Override
+	public Book getById(String id) {
 
 		Optional<Book> bookOptional = bookRepository.findById(id);
 		if (bookOptional.isPresent()) {
@@ -69,4 +70,5 @@ public class BookService {
 		throw new DataNotFoundException("Book with id " + id + " not found");
 
 	}
+
 }

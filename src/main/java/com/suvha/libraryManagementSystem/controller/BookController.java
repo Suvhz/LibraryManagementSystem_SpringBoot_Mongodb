@@ -71,7 +71,7 @@ public class BookController {
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Book getByid(@PathVariable String id) {
-		return bookService.findById(id);
+		return bookService.getById(id);
 	}
 
 }

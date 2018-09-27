@@ -26,7 +26,7 @@ public class BookIssueService implements ServiceDAO<BookIssue> {
 	@Transactional
 	@Override
 	public BookIssue create(BookIssue t) {
-		Book book = bookService.findById(t.getBookId());
+		Book book = bookService.getById(t.getBookId());
 		int quantity = book.getQuantity();
 		if(quantity>0){
 			book.setQuantity(quantity-1);
