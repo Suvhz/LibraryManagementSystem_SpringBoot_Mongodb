@@ -29,7 +29,7 @@ public class BookController {
 
 	@Autowired
 	BookService bookService;
-
+	
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	@ResponseStatus(value = HttpStatus.CREATED)
@@ -37,13 +37,14 @@ public class BookController {
 
 		return bookService.create(book);
 	}
-
+	//Retrieves all book which quantity is greater than 0
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Book> get() {
 
 		return bookService.get();
 	}
+	//Retrieves all book
 	@GetMapping(value="/getAll",produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Book> getAll(){
