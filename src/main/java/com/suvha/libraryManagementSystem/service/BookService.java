@@ -12,20 +12,23 @@ import com.suvha.libraryManagementSystem.repository.BookRepository;
 import com.suvha.libraryManagementSystem.serviceDAO.ServiceDAO;
 
 @Service
-public class BookService implements ServiceDAO<Book>{
+public class BookService implements ServiceDAO<Book> {
 	@Autowired
 	private BookRepository bookRepository;
+
 	@Override
 	public Book create(Book book) {
 		Book books = new Book();
 		books = book;
 		return bookRepository.save(books);
 	}
+
 	public List<Book> get() {
 		return bookRepository.findByQuantityGreaterThan(0);
 	}
+
 	@Override
-	public List<Book> getAll(){
+	public List<Book> getAll() {
 		return bookRepository.findAll();
 	}
 
@@ -36,6 +39,7 @@ public class BookService implements ServiceDAO<Book>{
 		}
 		throw new DataNotFoundException("Book with name " + bookName + " not found");
 	}
+
 	@Override
 	public Book update(Book book) {
 		Book findedBook = getById(book.getId());
@@ -49,10 +53,12 @@ public class BookService implements ServiceDAO<Book>{
 		return bookRepository.save(findedBook);
 
 	}
+
 	@Override
 	public void deleteAll() {
 		bookRepository.deleteAll();
 	}
+
 	@Override
 	public Map<String, String> delete(String id) {
 		Book book = getById(id);
@@ -60,6 +66,7 @@ public class BookService implements ServiceDAO<Book>{
 		return Collections.singletonMap("response", "Deleted successfully");
 
 	}
+
 	@Override
 	public Book getById(String id) {
 

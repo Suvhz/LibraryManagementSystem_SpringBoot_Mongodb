@@ -17,7 +17,7 @@ import com.suvha.libraryManagementSystem.exception.DataNotFoundException;
 import com.suvha.libraryManagementSystem.model.ErrorMessage;
 
 @RestControllerAdvice
-public class GlobalExceptionHandlervhjvjv extends ResponseEntityExceptionHandler{
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 	@ExceptionHandler(DataNotFoundException.class)
 	@RequestMapping(produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ErrorMessage> DataNotFound(DataNotFoundException ex, HttpServletRequest request){
