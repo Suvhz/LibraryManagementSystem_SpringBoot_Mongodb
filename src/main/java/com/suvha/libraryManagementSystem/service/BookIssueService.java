@@ -1,14 +1,13 @@
 package com.suvha.libraryManagementSystem.service;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.suvha.libraryManagementSystem.exception.DataNotFoundException;
 import com.suvha.libraryManagementSystem.model.Book;
 import com.suvha.libraryManagementSystem.model.BookIssue;
@@ -25,23 +24,25 @@ public class BookIssueService implements ServiceDAO<BookIssue> {
 	private BookService bookService;
 	@Autowired
 	private UserService userService;
-	
+
 	@Transactional
 	@Override
 	public BookIssue create(BookIssue t) {
 		Book book = bookService.getById(t.getBookId());
 		User user = userService.getById(t.getUserId());
 		int quantity = book.getQuantity();
-		if(user!=null) {
-			if(quantity>0){
-				book.setQuantity(quantity-1);
-				bookService.update(book);  
+		if (user != null) {
+			if (quantity > 0) {
+				book.setQuantity(quantity - 1);
+				bookService.update(book);
 				t.setStatus(false);
+				Date date = new Date();
+				t.setIssueDate(date);
 				return bookIssueRepository.save(t);
 			}
 		}
 		throw new DataNotFoundException("Book with id " + t.getBookId() + " not found");
-		
+
 	}
 
 	@Override
@@ -52,7 +53,7 @@ public class BookIssueService implements ServiceDAO<BookIssue> {
 	@Override
 	public BookIssue getById(String id) {
 		Optional<BookIssue> bookIssue = bookIssueRepository.findById(id);
-		if(bookIssue.isPresent()) {
+		if (bookIssue.isPresent()) {
 			return bookIssue.get();
 		}
 		throw new DataNotFoundException("BookIssue with id " + id + " not found");
@@ -77,7 +78,7 @@ public class BookIssueService implements ServiceDAO<BookIssue> {
 	@Override
 	public void deleteAll() {
 		bookIssueRepository.deleteAll();
-		
+
 	}
 
 }

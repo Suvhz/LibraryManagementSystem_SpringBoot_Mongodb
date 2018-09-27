@@ -1,5 +1,7 @@
 package com.suvha.libraryManagementSystem.model;
 
+import java.util.Date;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection="BookIssue")
@@ -8,6 +10,7 @@ public class BookIssue {
 	private String id;
 	private String userId;
 	private String bookId;
+	private Date issueDate;
 	private boolean status;
 	
 	public BookIssue() {
@@ -39,5 +42,12 @@ public class BookIssue {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
+	public Date getIssueDate() {
+		return issueDate;
+	}
+	public void setIssueDate(Date issueDate) {
+		this.issueDate = issueDate;
+	}
+	
 	
 }
