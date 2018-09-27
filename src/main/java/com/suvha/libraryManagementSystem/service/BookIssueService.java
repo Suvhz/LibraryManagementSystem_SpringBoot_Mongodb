@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.suvha.libraryManagementSystem.exception.DataNotFoundException;
 import com.suvha.libraryManagementSystem.model.Book;
 import com.suvha.libraryManagementSystem.model.BookIssue;
+import com.suvha.libraryManagementSystem.model.User;
 import com.suvha.libraryManagementSystem.repository.BookIssueRepository;
 import com.suvha.libraryManagementSystem.serviceDAO.ServiceDAO;
 
@@ -22,16 +23,22 @@ public class BookIssueService implements ServiceDAO<BookIssue> {
 	private BookIssueRepository bookIssueRepository;
 	@Autowired
 	private BookService bookService;
+	@Autowired
+	private UserService userService;
 	
 	@Transactional
 	@Override
 	public BookIssue create(BookIssue t) {
 		Book book = bookService.getById(t.getBookId());
+		User user = userService.getById(t.getUserId());
 		int quantity = book.getQuantity();
-		if(quantity>0){
-			book.setQuantity(quantity-1);
-			bookService.update(book);  
-			return bookIssueRepository.save(t);
+		if(user!=null) {
+			if(quantity>0){
+				book.setQuantity(quantity-1);
+				bookService.update(book);  
+				t.setStatus(false);
+				return bookIssueRepository.save(t);
+			}
 		}
 		throw new DataNotFoundException("Book with id " + t.getBookId() + " not found");
 		
