@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.suvha.libraryManagementSystem.exception.DataNotFoundException;
+import com.suvha.libraryManagementSystem.exception.IdInCreateException;
 import com.suvha.libraryManagementSystem.model.Book;
 import com.suvha.libraryManagementSystem.repository.BookRepository;
 import com.suvha.libraryManagementSystem.serviceDAO.ServiceDAO;
@@ -18,9 +19,11 @@ public class BookService implements ServiceDAO<Book> {
 
 	@Override
 	public Book create(Book book) {
-		Book books = new Book();
-		books = book;
-		return bookRepository.save(books);
+		if(book.getId()!=null) {
+			throw new IdInCreateException("Don't pass id");
+		}
+
+		return bookRepository.save(book);
 	}
 
 	public List<Book> get() {

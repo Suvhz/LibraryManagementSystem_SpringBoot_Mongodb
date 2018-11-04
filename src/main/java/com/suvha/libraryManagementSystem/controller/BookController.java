@@ -34,7 +34,7 @@ public class BookController {
 	@ResponseBody
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public Book save(@RequestBody @Valid Book book) {
-
+		
 		return bookService.create(book);
 	}
 	//Retrieves all book which quantity is greater than 0
@@ -59,7 +59,7 @@ public class BookController {
 
 	@PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Book update(@RequestBody Book book) {
+	public Book update(@Valid @RequestBody Book book) {
 		return bookService.update(book);
 	}
 

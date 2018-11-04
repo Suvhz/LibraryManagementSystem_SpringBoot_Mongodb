@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.suvha.libraryManagementSystem.exception.DataNotFoundException;
+import com.suvha.libraryManagementSystem.exception.IdInCreateException;
 import com.suvha.libraryManagementSystem.model.User;
 import com.suvha.libraryManagementSystem.repository.UserReppository;
 import com.suvha.libraryManagementSystem.serviceDAO.ServiceDAO;
@@ -20,6 +21,9 @@ public class UserService implements ServiceDAO<User>{
 	
 	@Override
 	public User create(User t) {
+		if(t.getId()!=null) {
+			throw new IdInCreateException("Don't pass id");
+		}
 		return userRepository.save(t);
 	}
 

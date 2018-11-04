@@ -91,9 +91,6 @@ public class Book {
 		return id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public int getQuantity() {
 		return quantity;

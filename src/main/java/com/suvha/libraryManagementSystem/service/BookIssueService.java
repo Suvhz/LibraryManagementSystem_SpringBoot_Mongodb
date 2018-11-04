@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.suvha.libraryManagementSystem.exception.DataNotFoundException;
+import com.suvha.libraryManagementSystem.exception.IdInCreateException;
 import com.suvha.libraryManagementSystem.model.Book;
 import com.suvha.libraryManagementSystem.model.BookIssue;
 import com.suvha.libraryManagementSystem.model.User;
@@ -28,6 +29,9 @@ public class BookIssueService implements ServiceDAO<BookIssue> {
 	@Transactional
 	@Override
 	public BookIssue create(BookIssue t) {
+		if(t.getId()!=null) {
+			throw new IdInCreateException("Don't pass id");
+		}
 		Book book = bookService.getById(t.getBookId());
 		User user = userService.getById(t.getUserId());
 		int quantity = book.getQuantity();
